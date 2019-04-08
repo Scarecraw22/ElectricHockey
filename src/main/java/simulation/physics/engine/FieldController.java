@@ -12,9 +12,9 @@ public class FieldController implements Runnable{
     private MoveableParticle ball;
     private boolean isRunning;
 
-    public FieldController(){
+    public FieldController(double ballMass){
         particles = new ArrayList<>();
-        ball = new MoveableParticle(100,100, new Vector2D(0,0), Particle.ELECTRON_MASS);
+        ball = new MoveableParticle(100,100, new Vector2D(0,0), ballMass);
     }
 
     public synchronized double getBallX(){
