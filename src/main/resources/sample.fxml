@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.Pane?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.RadioButton?>
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulation.gui.Controller">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulation.gui.Controller">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -16,14 +21,14 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Pane prefHeight="572.0" prefWidth="870.0">
+      <Pane fx:id="pane" prefHeight="572.0" prefWidth="870.0">
          <children>
             <Pane layoutX="-15.0" layoutY="550.0" minHeight="35.0" minWidth="900.0" style="-fx-background-color: #4286f4;">
                <children>
-                  <Button fx:id="buttonStart" layoutX="115.0" layoutY="2.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Start" textAlignment="CENTER" />
-                  <Button fx:id="buttonStop" layoutX="190.0" layoutY="2.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Stop" />
-                  <CheckBox fx:id="showFieldCheckBox" layoutX="272.0" layoutY="6.0" mnemonicParsing="false" text="ShowField" />
-                  <Button fx:id="buttonClear" layoutX="395.0" layoutY="2.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Clear" />
+                  <Button fx:id="buttonStart" layoutX="115.0" layoutY="2.0" mnemonicParsing="false" onAction="#onStart" prefHeight="31.0" prefWidth="54.0" text="Start" textAlignment="CENTER" />
+                  <Button fx:id="buttonStop" layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#onStop" prefHeight="31.0" prefWidth="54.0" text="Stop" />
+                  <CheckBox fx:id="showFieldCheckBox" layoutX="272.0" layoutY="6.0" mnemonicParsing="false" onAction="#showFieldClicked" text="ShowField" />
+                  <Button fx:id="buttonClear" layoutX="395.0" layoutY="2.0" mnemonicParsing="false" onAction="#buttonClearClick" prefHeight="31.0" prefWidth="54.0" text="Clear" />
                   <Group layoutX="488.0" layoutY="6.0">
                      <children>
                         <RadioButton fx:id="buttonLevel1" mnemonicParsing="false" text="Level 1" />
@@ -31,6 +36,12 @@
                         <RadioButton fx:id="buttonLevel3" layoutX="183.0" layoutY="1.0" mnemonicParsing="false" text="Level 3" />
                      </children>
                   </Group>
+               </children>
+            </Pane>
+            <Pane maxHeight="50.0" prefHeight="29.0" prefWidth="999.0" style="-fx-background-color: #266d41;">
+               <children>
+                  <Button fx:id="addProton" layoutX="387.0" layoutY="2.0" mnemonicParsing="false" onAction="#addProtonClick" text="Add proton" />
+                  <Button fx:id="addElectron" layoutX="501.0" layoutY="3.0" mnemonicParsing="false" onAction="#addElectronClick" text="Add electron" />
                </children>
             </Pane>
          </children></Pane>

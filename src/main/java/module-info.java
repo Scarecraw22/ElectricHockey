@@ -6,7 +6,7 @@ module simulatioin {
     requires transitive java.desktop;
     requires java.datatransfer;
 
-//    opens simulation.gui javafx.fxml;
+    opens simulation.gui to javafx.fxml;
 
     exports simulation.gui to javafx.fxml, javafx.graphics;
 

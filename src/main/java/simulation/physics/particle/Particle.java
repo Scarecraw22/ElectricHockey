@@ -10,6 +10,11 @@ public class Particle {
     public static final double ELECTRON_CHARGE = 1.6021*1e-19;
 
     private double charge;
+
+    public PositionSystem getPosition() {
+        return position;
+    }
+
     private PositionSystem position;
 
     public Particle(double charge, double x, double y) {
@@ -24,6 +29,7 @@ public class Particle {
 
     public Vector2D getElectricFieldAt(double x, double y){
         return calculateCoulombForceFrom(new Particle(1, x, y));
+
     }
 
 }

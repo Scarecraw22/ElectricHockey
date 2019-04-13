@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class FieldController implements Runnable{
 
+
     private ArrayList<Particle> particles;
     private MoveableParticle ball;
     private boolean isRunning;
@@ -52,7 +53,7 @@ public class FieldController implements Runnable{
             passed += delta;
             //TODO remove logging if not needed
             if (passed > 0.2){
-                System.out.println(getBallX() + " |||||| " +getBallY());
+                //System.out.println(getBallX() + " |||||| " +getBallY());
                 passed = 0;
             }
             update(delta);
@@ -65,6 +66,10 @@ public class FieldController implements Runnable{
 
     public void setRunning(boolean running) {
         isRunning = running;
+    }
+
+    public ArrayList<Particle> getParticles() {
+        return particles;
     }
 
 
