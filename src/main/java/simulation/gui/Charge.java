@@ -25,11 +25,11 @@ public class Charge {
         circle.setLayoutY(y);
     }
     public Circle getCircle(){
-        System.out.println(circle.getCenterY());
+       // System.out.println(circle.getCenterY());
         return circle;
     }
 
     public void  foo() {
-        System.out.println(circle.getLayoutY());
+        //System.out.println(circle.getLayoutY());
     }
 }

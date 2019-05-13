@@ -19,7 +19,9 @@ public class MoveableParticle {
         this.velocity = velocity;
         this.mass = mass;
     }
-
+    public void setPosition(PositionSystem pos){
+        position=pos;
+    }
     public void update(double delta, Vector2D electricField){
         Vector2D acceleration = truncateField(electricField).mul(Particle.ELECTRON_CHARGE).div(mass);
         //TODO remove logging if not needed

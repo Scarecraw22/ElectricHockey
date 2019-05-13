@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.embed.swing.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -31,9 +34,9 @@
                   <Button fx:id="buttonClear" layoutX="395.0" layoutY="2.0" mnemonicParsing="false" onAction="#buttonClearClick" prefHeight="31.0" prefWidth="54.0" text="Clear" />
                   <Group layoutX="488.0" layoutY="6.0">
                      <children>
-                        <RadioButton fx:id="buttonLevel1" mnemonicParsing="false" text="Level 1" />
-                        <RadioButton fx:id="buttonLevel2" layoutX="94.0" mnemonicParsing="false" text="Level 2" />
-                        <RadioButton fx:id="buttonLevel3" layoutX="183.0" layoutY="1.0" mnemonicParsing="false" text="Level 3" />
+                        <RadioButton fx:id="buttonLevel1" mnemonicParsing="false" onAction="#lvl1Clicked" text="Level 1" />
+                        <RadioButton fx:id="buttonLevel2" layoutX="94.0" mnemonicParsing="false" onAction="#lvl2Clicked" text="Level 2" />
+                        <RadioButton fx:id="buttonLevel3" layoutX="183.0" layoutY="1.0" mnemonicParsing="false" onAction="#lvl3Clicked" text="Level 3" />
                      </children>
                   </Group>
                </children>
@@ -44,6 +47,13 @@
                   <Button fx:id="addElectron" layoutX="501.0" layoutY="3.0" mnemonicParsing="false" onAction="#addElectronClick" text="Add electron" />
                </children>
             </Pane>
+            <Line fx:id="line1" endX="100.0" layoutX="292.0" layoutY="404.0" rotate="90.0" startX="-200.0" />
+            <Line fx:id="line2" endX="100.0" layoutX="387.0" layoutY="130.0" rotate="90.0" startX="-100.0" />
+            <Line fx:id="line3" endX="100.0" layoutX="465.0" layoutY="449.0" rotate="90.0" startX="-100.0" />
+            <Line fx:id="lineb1" endX="50.0" layoutX="577.0" layoutY="223.0" />
+            <Line fx:id="lineb2" endX="50.0" layoutX="577.0" layoutY="324.0" />
+            <Line fx:id="lineb3" endX="100.0" layoutX="578.0" layoutY="274.0" rotate="90.0" />
+            <Line fx:id="linewin" endX="100.0" layoutX="527.0" layoutY="272.0" rotate="90.0" visible="false" />
          </children></Pane>
    </children>
 </GridPane>

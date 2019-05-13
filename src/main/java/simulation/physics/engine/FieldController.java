@@ -3,6 +3,7 @@ package simulation.physics.engine;
 import simulation.physics.appendix.Vector2D;
 import simulation.physics.particle.MoveableParticle;
 import simulation.physics.particle.Particle;
+import simulation.physics.particle.PositionSystem;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,10 @@ public class FieldController implements Runnable{
     public synchronized double getBallX(){
         return ball.getPosition().getX();
     }
+    public void setBallXY(double x,double y){
 
+        ball.setPosition(new PositionSystem(x,y));
+    }
     public synchronized double getBallY(){
         return ball.getPosition().getY();
     }

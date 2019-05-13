@@ -12,11 +12,10 @@ public class Main extends Application {
     private final int primaryWidth = 900;
    private final int primaryHeight = 700;
 
-
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getClassLoader().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, primaryWidth, primaryHeight));
         primaryStage.show();
