@@ -49,7 +49,7 @@ public class Controller {
         Circle c = new Circle();
         c.setLayoutX(0);
         c.setLayoutY(0);
-        c.setRadius(5);
+        c.setRadius(6.5);
         particles.getChildren().addAll(c);
         c.setOnMousePressed(circleOnMousePressedEventHandler);
         c.setOnMouseDragged(circleOnMouseDraggedEventHandler);
@@ -65,7 +65,7 @@ public class Controller {
         Circle c = new Circle();
         c.setLayoutX(0);
         c.setLayoutY(0);
-        c.setRadius(5);
+        c.setRadius(6.5);
         particles.getChildren().addAll(c);
         c.setOnMousePressed(circleOnMousePressedEventHandler);
         c.setOnMouseDragged(circleOnMouseDraggedEventHandler);
@@ -84,6 +84,7 @@ public class Controller {
         updateField();
         unmoveables.clear();
         particles.getChildren().clear();
+        field.reset();
         field.setBallXY(100,100);
         collisionT.setVisible(false);
         winT.setVisible(false);

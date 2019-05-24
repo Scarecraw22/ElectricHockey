@@ -13,7 +13,7 @@ public class Charge {
         circle = new Circle();
         circle.setLayoutX(x);
         circle.setLayoutY(y);
-        circle.setRadius(5.0f);
+        circle.setRadius(6.5f);
         mp = new MoveableParticle(
                 x,y,
                 new Vector2D(x,y),

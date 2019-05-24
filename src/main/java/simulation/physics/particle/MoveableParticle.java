@@ -7,6 +7,7 @@ public class MoveableParticle {
     private PositionSystem position;
     private Vector2D velocity;
     private double mass;
+    private static final int forceConstant = 100;
 
     public MoveableParticle(PositionSystem position, Vector2D velocity, double mass) {
         this.position = position;
@@ -26,8 +27,8 @@ public class MoveableParticle {
         Vector2D acceleration = truncateField(electricField).mul(Particle.ELECTRON_CHARGE).div(mass);
         //TODO remove logging if not needed
         //System.out.println(position.getX() + ", " + position.getY() + " v0: " + velocity.length() + "   acc: " + acceleration.length() + " field: " + electricField.length());
-        position.moveX(velocity.getX()*delta + acceleration.getX()*delta*delta/2);
-        position.moveY(velocity.getY()*delta + acceleration.getY()*delta*delta/2);
+        position.moveX((velocity.getX()*forceConstant*delta + acceleration.getX()*delta*delta/2));
+        position.moveY((velocity.getY()*forceConstant*delta + acceleration.getY()*delta*delta/2));
         velocity = velocity.add(acceleration.mul(delta));
     }
 
@@ -48,6 +49,10 @@ public class MoveableParticle {
 
     public double getMass() {
         return mass;
+    }
+
+    public void reset() {
+        velocity = new Vector2D(0,0);
     }
 
 

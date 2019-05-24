@@ -9,8 +9,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ElectricHockey" />
         <module name="simulation" />
+        <module name="ElectricHockey" />
       </profile>
     </annotationProcessing>
   </component>

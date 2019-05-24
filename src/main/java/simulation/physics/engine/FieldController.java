@@ -48,18 +48,11 @@ public class FieldController implements Runnable{
     public void run(){
         long lastLoopTime = System.nanoTime();
         isRunning = true;
-        double passed = 0;
         while (isRunning){
             long now = System.nanoTime();
             long updateLength = now - lastLoopTime;
             lastLoopTime = now;
             double delta = updateLength/1e9;
-            passed += delta;
-            //TODO remove logging if not needed
-            if (passed > 0.2){
-                //System.out.println(getBallX() + " |||||| " +getBallY());
-                passed = 0;
-            }
             update(delta);
         }
     }
@@ -73,7 +66,12 @@ public class FieldController implements Runnable{
     }
 
     public ArrayList<Particle> getParticles() {
-        return particles;
+        return new ArrayList<>(particles);
+    }
+
+    public void reset() {
+        ball.reset();
+        particles = new ArrayList<>();
     }
 
 

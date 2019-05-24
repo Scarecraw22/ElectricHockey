@@ -39,11 +39,9 @@ public class Updater implements Runnable {
             controller.checkCollision();
             double delta = updateLength/1e9;
             passed += delta;
-            if (passed > 0.2){
-
-                c.changePos(Math.floor(field.getBallX()),(double)Math.floor(field.getBallY() ));
-
-
+            if (passed > 0.016){
+                c.changePos(field.getBallX(),field.getBallY());
+                passed = 0;
             }
 
         }
