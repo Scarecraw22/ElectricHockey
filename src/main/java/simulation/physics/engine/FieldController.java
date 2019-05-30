@@ -34,15 +34,23 @@ public class FieldController implements Runnable{
 
     public synchronized boolean removeParticle(Particle p) { return particles.remove(p); }
 
-    public synchronized Vector2D getFieldAt(double x, double y){
+    public synchronized Vector2D getElectricFieldAt(double x, double y){
         return particles.stream()
                 .map(particle -> particle.getElectricFieldAt(x, y))
                 .reduce(new Vector2D(0,0), Vector2D::add);
     }
 
+    public synchronized double getMagneticFieldAt(double x, double y){
+        return particles.stream()
+                .map(particle -> particle.getMagneticFieldAt(x, y))
+                .reduce(0.0, Double::sum);
+    }
+
     private void update(double delta){
-        Vector2D force = getFieldAt(getBallX(), getBallY());
-        ball.update(delta, force);
+        Vector2D electricForce = getElectricFieldAt(getBallX(), getBallY());
+        double induction = getMagneticFieldAt(getBallX(), getBallY());
+        particles.forEach(p -> p.update(delta));
+        ball.update(delta, electricForce, induction);
     }
 
     public void run(){

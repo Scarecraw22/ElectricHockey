@@ -10,14 +10,15 @@ import simulation.physics.particle.Particle;
 
 public class Main extends Application {
     private final int primaryWidth = 900;
-   private final int primaryHeight = 700;
+   private final int primaryHeight = 600;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(getClass().getClassLoader().getResource("sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("sample.fxml"));
+        Parent root = fxmlLoader.load();
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, primaryWidth, primaryHeight));
+        primaryStage.setOnCloseRequest(e -> ((Controller) fxmlLoader.getController()).onStop());
         primaryStage.show();
 
     }

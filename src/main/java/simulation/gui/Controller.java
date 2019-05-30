@@ -1,19 +1,22 @@
 package simulation.gui;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import simulation.physics.engine.FieldController;
 import simulation.physics.particle.Particle;
 
@@ -24,15 +27,18 @@ import java.util.Map;
 public class Controller {
     private Map<Circle,Particle> unmoveables = new HashMap<>();
     private Group fieldVec = new Group();
+    private Group magneticVec = new Group();
     private Group particles = new Group();
     private Charge charge = new Charge();
     private Group level1Group = new Group();
     private Updater updater = new Updater(this);
     private boolean fieldLines;
+    private boolean magneticLines;
     private FieldController field;
     private Text collisionT = new Text(100, 100, "Collision detected!");
     private Text winT = new Text(100, 100, "Victory!");
     private int currentLvl = 0;
+    private Circle circle = new Circle();
     @FXML
     private Line line1,line2,line3,lineb1,lineb2,lineb3,linewin;
 
@@ -45,15 +51,8 @@ public class Controller {
     @FXML
     public void addProtonClick(){
         Particle p = new Particle(Particle.ELECTRON_CHARGE , 1, 1);
-        field.addParticle(p);
         Circle c = new Circle();
-        c.setLayoutX(0);
-        c.setLayoutY(0);
-        c.setRadius(6.5);
-        particles.getChildren().addAll(c);
-        c.setOnMousePressed(circleOnMousePressedEventHandler);
-        c.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-        unmoveables.put(c,p);
+        setUpCharge(c, p);
         c.setFill(Color.RED);
     }
     @FXML
@@ -61,18 +60,9 @@ public class Controller {
     @FXML
     public void addElectronClick(){
         Particle p = new Particle(-Particle.ELECTRON_CHARGE , 1, 1);
-        field.addParticle(p);
         Circle c = new Circle();
-        c.setLayoutX(0);
-        c.setLayoutY(0);
-        c.setRadius(6.5);
-        particles.getChildren().addAll(c);
-        c.setOnMousePressed(circleOnMousePressedEventHandler);
-        c.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-        unmoveables.put(c,p);
+        setUpCharge(c, p);
         c.setFill(Color.BLUE);
-
-
     }
     @FXML
     private Button buttonClear;
@@ -81,7 +71,7 @@ public class Controller {
         charge.getCircle().setLayoutY(100);
         charge.getCircle().setLayoutX(100);
         field.getParticles().clear();
-        updateField();
+        updateElectricField();
         unmoveables.clear();
         particles.getChildren().clear();
         field.reset();
@@ -94,11 +84,11 @@ public class Controller {
     @FXML
     public void initialize() {
         field = new FieldController(Particle.ELECTRON_MASS/22);
-
-        charge.setCircle(100f,100f);
+        charge.setCircle(100f,100f, circle);
         updater.setC(charge);
         updater.setField(field);
-        pane.getChildren().addAll(charge.getCircle(),fieldVec,particles,collisionT,winT,level1Group);
+        updater.setParticles(unmoveables);
+        pane.getChildren().addAll(circle, magneticVec, fieldVec,particles,collisionT,winT,level1Group);
         level1Group.getChildren().addAll(line1,line2,line3,lineb1,lineb2,lineb3,linewin);
         collisionT.setFont(new Font(20));
         winT.setFont(new Font(20));
@@ -147,6 +137,11 @@ public class Controller {
         showField();
     }
 
+    @FXML
+    public void showMagneticFieldClicked(){
+        showMagneticField();
+    }
+
     public void showField(){
         if (fieldLines){
             fieldLines=false;
@@ -154,19 +149,42 @@ public class Controller {
         }
         else{
             fieldLines = true;
-            updateField();
+            updateElectricField();
 
         }
     }
-    public void updateField(){
+    public void updateElectricField(){
         if (fieldLines) {
             fieldVec.getChildren().clear();
             for (int i = 0; i < 18; i++) {
                 for (int j = 0; j < 12; j++) {
-                    Arrow a = new Arrow(field.getFieldAt(50 * i, 50 * j).getX(), field.getFieldAt(50 * i, 50 * j).getY());
+                    Arrow a = new Arrow(field.getElectricFieldAt(50 * i, 50 * j).getX(), field.getElectricFieldAt(50 * i, 50 * j).getY());
                     a.getG().setTranslateX(50 * i);
                     a.getG().setTranslateY(50 * j);
                     fieldVec.getChildren().add(a.getG());
+                }
+            }
+        }
+    }
+
+    public void showMagneticField() {
+        if (magneticLines){
+            magneticLines=false;
+            magneticVec.getChildren().clear();
+        }
+        else{
+            magneticLines = true;
+            updateMagneticField();
+        }
+    }
+
+    public void updateMagneticField() {
+        if (magneticLines) {
+            magneticVec.getChildren().clear();
+            for (int i = 0; i < 17; i++) {
+                for (int j = 1; j < 11; j++) {
+                    VectorZ vz = new VectorZ(50 * i + 25, 50 * j + 25, field.getMagneticFieldAt(50 * i + 25, 50 * j + 25));
+                    magneticVec.getChildren().add(vz.getG());
                 }
             }
         }
@@ -198,37 +216,61 @@ public class Controller {
         winT.setVisible(true);
     }
 
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
-    EventHandler<MouseEvent> circleOnMousePressedEventHandler =
-            new EventHandler<MouseEvent>() {
+    private double orgSceneX, orgSceneY;
+    private double orgTranslateX, orgTranslateY;
 
-                @Override
-                public void handle(MouseEvent t) {
-                    orgSceneX = t.getSceneX();
-                    orgSceneY = t.getSceneY();
-                    orgTranslateX = ((Circle)(t.getSource())).getTranslateX();
-                    orgTranslateY = ((Circle)(t.getSource())).getTranslateY();
-                }
-            };
+    private void setUpCharge(Circle c, Particle p){
+        final double startX = 450;
+        final double startY = 100;
+        field.addParticle(p);
+        c.setLayoutX(0);
+        c.setLayoutY(0);
+        c.setTranslateX(startX);
+        c.setTranslateY(startY);
+        p.getPosition().setX(startX);
+        p.getPosition().setY(startY);
+        c.setRadius(6.5);
+        particles.getChildren().addAll(c);
+        c.setOnMousePressed(e -> {
+            if (e.getButton() == MouseButton.SECONDARY){
+                Button set = new Button("set");
+                TextField vx = new TextField("xVel");
+                vx.setPrefWidth(50);
+                TextField vy = new TextField("yVel");
+                vy.setPrefWidth(50);
+                HBox hBox = new HBox(vx, vy, set);
+                Pane velPane = new AnchorPane(hBox);
+                velPane.setTranslateX(e.getSceneX() + 10);
+                velPane.setTranslateY(e.getSceneY());
+                pane.getChildren().add(velPane);
+                set.setOnMouseClicked(ev -> {
+                    onStop();
+                    p.setMoving(Double.parseDouble(vx.getText()), Double.parseDouble(vy.getText()));
+                    pane.getChildren().remove(velPane);
+                    updateMagneticField();
+                });
 
-    EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
-                    double offsetX = t.getSceneX() - orgSceneX;
-                    double offsetY = t.getSceneY() - orgSceneY;
-                    double newTranslateX = orgTranslateX + offsetX;
-                    double newTranslateY = orgTranslateY + offsetY;
-
-                    ((Circle)(t.getSource())).setTranslateX(newTranslateX);
-                    ((Circle)(t.getSource())).setTranslateY(newTranslateY);
-                    unmoveables.get((Circle)(t.getSource())).getPosition().setX(1+newTranslateX);
-                    unmoveables.get((Circle)(t.getSource())).getPosition().setY(1+newTranslateY);
-                    updateField();
-
-                }
-            };
+            }
+            orgSceneX = e.getSceneX();
+            orgSceneY = e.getSceneY();
+            orgTranslateX = ((Circle)(e.getSource())).getTranslateX();
+            orgTranslateY = ((Circle)(e.getSource())).getTranslateY();
+        });
+        c.setOnMouseDragged(e -> {
+            double offsetX = e.getSceneX() - orgSceneX;
+            double offsetY = e.getSceneY() - orgSceneY;
+            double newTranslateX = orgTranslateX + offsetX;
+            double newTranslateY = orgTranslateY + offsetY;
+            Circle source = ((Circle)(e.getSource()));
+            source.setTranslateX(newTranslateX);
+            source.setTranslateY(newTranslateY);
+            unmoveables.get(source).getPosition().setX(source.getTranslateX());
+            unmoveables.get(source).getPosition().setY(source.getTranslateY());
+            updateElectricField();
+            updateMagneticField();
+        });
+        updateElectricField();
+        unmoveables.put(c,p);
+    }
 
 }
