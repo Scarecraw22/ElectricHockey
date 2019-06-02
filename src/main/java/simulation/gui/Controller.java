@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -31,6 +32,9 @@ public class Controller {
     private Group particles = new Group();
     private Charge charge = new Charge();
     private Group level1Group = new Group();
+    private Group level2Group = new Group();
+    private Group level3Group = new Group();
+    private Group gate = new Group();
     private Updater updater = new Updater(this);
     private boolean fieldLines;
     private boolean magneticLines;
@@ -39,9 +43,13 @@ public class Controller {
     private Text winT = new Text(100, 100, "Victory!");
     private int currentLvl = 0;
     private Circle circle = new Circle();
+    ToggleGroup toggleGroup = new ToggleGroup();
     @FXML
-    private Line line1,line2,line3,lineb1,lineb2,lineb3,linewin;
-
+    private Line line1,line2,line3,lineb1,lineb2,lineb3,linewin,line_2,line2_1,line2_2;
+    @FXML
+    private Group radios;
+    @FXML
+    private RadioButton buttonLevel1,buttonLevel2,buttonLevel3,buttonPractice;
     @FXML
     private Button buttonStart;
     @FXML
@@ -88,15 +96,22 @@ public class Controller {
         updater.setC(charge);
         updater.setField(field);
         updater.setParticles(unmoveables);
-        pane.getChildren().addAll(circle, magneticVec, fieldVec,particles,collisionT,winT,level1Group);
-        level1Group.getChildren().addAll(line1,line2,line3,lineb1,lineb2,lineb3,linewin);
+        pane.getChildren().addAll(circle, magneticVec, fieldVec,particles,collisionT,winT,level1Group,level2Group,level3Group,gate);
+        level3Group.getChildren().addAll(line1,line2,line3);
+        level2Group.getChildren().addAll(line2_1,line2_2);
+        level1Group.getChildren().addAll(line_2);
+        gate.getChildren().addAll(lineb1,lineb2,lineb3,linewin);
         collisionT.setFont(new Font(20));
         winT.setFont(new Font(20));
         collisionT.setVisible(false);
         winT.setVisible(false);
-        for(Node n: level1Group.getChildren()){
-            n.setVisible(false);
-        }
+        setUnvisible();
+        setGate(false);
+        buttonLevel1.setToggleGroup(toggleGroup);
+        buttonLevel2.setToggleGroup(toggleGroup);
+        buttonLevel3.setToggleGroup(toggleGroup);
+        buttonPractice.setToggleGroup(toggleGroup);
+
 
     }
     @FXML
@@ -112,26 +127,53 @@ public class Controller {
     }
 
     @FXML
-    private RadioButton buttonLevel1;
     public void lvl1Clicked(){
+        setUnvisible();
+        setGate(true);
         for (Node n : level1Group.getChildren())
             n.setVisible(true);
         linewin.setVisible(false);
         currentLvl = 1;
     }
     public void lvl2Clicked(){
-        for (Node n : level1Group.getChildren())
-            n.setVisible(false);
+        setUnvisible();
+        setGate(true);
+        for (Node n : level2Group.getChildren())
+            n.setVisible(true);
         linewin.setVisible(false);
         currentLvl = 2;
     }
     public void lvl3Clicked(){
-        for (Node n : level1Group.getChildren())
-            n.setVisible(false);
+        setUnvisible();
+        setGate(true);
+        for (Node n : level3Group.getChildren())
+            n.setVisible(true);
         linewin.setVisible(false);
         currentLvl = 3;
     }
+    public void practiceClicked(){
+        setUnvisible();
+        setGate(false);
+        currentLvl=0;
+    }
 
+
+    private void setUnvisible(){
+        for(Node n: level3Group.getChildren()){
+            n.setVisible(false);
+        }
+        for(Node n: level2Group.getChildren()){
+            n.setVisible(false);
+        }
+        for(Node n: level1Group.getChildren()){
+            n.setVisible(false);
+        }
+    }
+    private void setGate(Boolean stance){
+        for(Node n: gate.getChildren()){
+            n.setVisible(stance);
+        }
+    }
     @FXML
     public void showFieldClicked(){
         showField();
@@ -205,8 +247,50 @@ public class Controller {
                 }
             }
         }
-
+        if (currentLvl==2) {
+            for (Node n : level2Group.getChildren()
+            ) {
+                if (n != linewin) {
+                    if (charge.getCircle().getBoundsInParent().intersects(n.getBoundsInParent())) {
+                        gameOver();
+                    }
+                } else {
+                    if (charge.getCircle().getBoundsInParent().intersects(n.getBoundsInParent())) {
+                        victory();
+                    }
+                }
+            }
+        }
+        if (currentLvl==3) {
+            for (Node n : level3Group.getChildren()
+            ) {
+                if (n != linewin) {
+                    if (charge.getCircle().getBoundsInParent().intersects(n.getBoundsInParent())) {
+                        gameOver();
+                    }
+                } else {
+                    if (charge.getCircle().getBoundsInParent().intersects(n.getBoundsInParent())) {
+                        victory();
+                    }
+                }
+            }
+        }
+        if (currentLvl!=0){
+            for (Node n : gate.getChildren()
+            ) {
+                if (n != linewin) {
+                    if (charge.getCircle().getBoundsInParent().intersects(n.getBoundsInParent())) {
+                        gameOver();
+                    }
+                } else {
+                    if (charge.getCircle().getBoundsInParent().intersects(n.getBoundsInParent())) {
+                        victory();
+                    }
+                }
+            }
+        }
     }
+
     private void gameOver(){
         onStop();
         collisionT.setVisible(true);

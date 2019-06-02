@@ -3,6 +3,7 @@ package simulation.gui;
 import javafx.scene.Group;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.transform.Rotate;
 
 import static java.lang.Math.E;
 
@@ -36,13 +37,18 @@ public class Arrow  {
 
     }
     public Arrow(double x,double y){
+        double x1=limit(x*Math.pow(10,14));
+        double y1=limit(y*Math.pow(10,14));
         Line l = new Line(0,0,
-                0+limit(x*Math.pow(10,14)),
-                0+limit(y*Math.pow(10,14)));
+                x1,y1);
 
         g.getChildren().addAll(l);
     }
     private double limit(double a){
         return (a > MAX ) ? MAX : (a < MIN ? MIN: a);
     }
+    public static double sigmoid(double x) {
+        return (1/( 1 + Math.pow(Math.E,(-1*x))) - 0.5);
+    }
+
 }

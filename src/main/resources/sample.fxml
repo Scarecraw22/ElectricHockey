@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -10,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulation.gui.Controller">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulation.gui.Controller">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -27,9 +32,10 @@
                   <Button fx:id="buttonStop" layoutX="132.0" layoutY="1.0" mnemonicParsing="false" onAction="#onStop" prefHeight="31.0" prefWidth="54.0" text="Stop" />
                   <CheckBox fx:id="showFieldCheckBox" layoutX="329.0" layoutY="8.0" mnemonicParsing="false" onAction="#showFieldClicked" text="ShowElectricField" />
                   <Button fx:id="buttonClear" layoutX="466.0" layoutY="1.0" mnemonicParsing="false" onAction="#buttonClearClick" prefHeight="31.0" prefWidth="54.0" text="Clear" />
-                  <Group layoutX="552.0" layoutY="9.0">
+                  <Group fx:id="radios" layoutX="552.0" layoutY="9.0">
                      <children>
                         <RadioButton fx:id="buttonLevel1" mnemonicParsing="false" onAction="#lvl1Clicked" text="Level 1" />
+                        <RadioButton fx:id="buttonPractice" layoutX="260.0" layoutY="1.0" mnemonicParsing="false" onAction="#practiceClicked" text="Practice" />
                         <RadioButton fx:id="buttonLevel2" layoutX="94.0" mnemonicParsing="false" onAction="#lvl2Clicked" text="Level 2" />
                         <RadioButton fx:id="buttonLevel3" layoutX="183.0" layoutY="1.0" mnemonicParsing="false" onAction="#lvl3Clicked" text="Level 3" />
                      </children>
@@ -49,6 +55,9 @@
             <Line fx:id="lineb2" endX="50.0" layoutX="577.0" layoutY="324.0" />
             <Line fx:id="lineb3" endX="100.0" layoutX="578.0" layoutY="274.0" rotate="90.0" />
             <Line fx:id="linewin" endX="100.0" layoutX="527.0" layoutY="272.0" rotate="90.0" visible="false" />
+            <Line fx:id="line_2" endX="100.0" layoutX="344.0" layoutY="272.0" rotate="-90.0" startX="-100.0" />
+            <Line fx:id="line2_1" endX="100.0" layoutX="322.0" layoutY="188.0" rotate="-90.0" startX="-100.0" />
+            <Line fx:id="line2_2" endX="100.0" layoutX="481.0" layoutY="355.0" rotate="-90.0" startX="-100.0" />
          </children></Pane>
    </children>
 </GridPane>
